@@ -28,6 +28,8 @@
 #define FONT_GRAY "grayFont.fnt"
 #define FONT_WHITE "whiteFont.fnt"
 
+#define KEY_HIGHSCORE "HighScore"
+
 class GameScene : public cocos2d::Layer
 {
 protected:
@@ -42,6 +44,7 @@ protected:
         kTagGrayLabel,
         kTagScoreLabel,
         kTagGameOver,
+        kTagHighScoreLabel,
         kTagBaseBlock = 10000,
     };
     
@@ -106,6 +109,9 @@ protected:
     int m_score;
     
     bool existsSameBlock();
+    
+    void saveHighScore();
+    void showHighScoreLabel();
     
 public:
     virtual bool init();

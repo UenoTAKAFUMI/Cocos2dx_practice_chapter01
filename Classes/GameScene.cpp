@@ -42,6 +42,9 @@ bool GameScene::init() {
     
     showLabel();
     
+    showHighScoreLabel();
+
+    
     // 効果音の事前読み込み
     SimpleAudioEngine::sharedEngine()->preloadEffect(MP3_REMOVE_BLOCK);
     
@@ -216,6 +219,25 @@ void GameScene::showLabel(){
         m_background->addChild(scoreLabel, kZOrderLabel, kTagScoreLabel);
     } else {
         scoreLabel->setString(scoreStr);
+    }
+}
+
+
+// ハイスコアラベル表示
+void GameScene::showHighScoreLabel(){
+    Size bgSize = m_background->getContentSize();
+    
+    // ハイスコア表示
+    int highScore = UserDefault::sharedUserDefault()->getIntegerForKey(KEY_HIGHSCORE, 0);
+    const char* highScoreStr = ccsf("%d", highScore);
+    LabelBMFont* highScoreLabel = (LabelBMFont*)m_background->getChildByTag(kTagHighScoreLabel);
+    if (!highScoreLabel) {
+        // ハイスコア生成
+        highScoreLabel = LabelBMFont::create(highScoreStr, FONT_WHITE);
+        highScoreLabel->setPosition(ccp(bgSize.width * 0.78, bgSize.height * 0.87));
+        m_background->addChild(highScoreLabel, kZOrderLabel, kTagHighScoreLabel);
+    } else {
+        highScoreLabel->setString(highScoreStr);
     }
 }
 
@@ -422,6 +444,9 @@ void GameScene::movedBlocks(float delta){
     
     // ゲーム終了チェック
     if (!existsSameBlock()) {
+        // ハイスコア記録・表示
+        saveHighScore();
+        
         Size bgSize = m_background->getContentSize();
         
         // ゲーム終了表示
@@ -542,3 +567,21 @@ bool GameScene::existsSameBlock(){
     // 隣り合うコマが存在しない場合はfalseを返す
     return false;
 }
+
+// ハイスコア記録・表示
+void GameScene::saveHighScore(){
+    UserDefault* userDefault = UserDefault::sharedUserDefault();
+    
+    // ハイスコアを取得する
+    int oldHighScore = userDefault->getIntegerForKey(KEY_HIGHSCORE, 0);
+    if (oldHighScore < m_score) {
+        // ハイスコアを保持する
+        userDefault->setIntegerForKey(KEY_HIGHSCORE, m_score);
+        userDefault->flush();
+        
+        // ハイスコアを表示する
+        showHighScoreLabel();
+    }
+}
+
+
