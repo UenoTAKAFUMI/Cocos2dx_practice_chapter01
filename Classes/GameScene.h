@@ -25,6 +25,7 @@
 #define FONT_YELLOW "yellowFont.fnt"
 #define FONT_GREEN "greenFont.fnt"
 #define FONT_GRAY "grayFont.fnt"
+#define FONT_WHITE "whiteFont.fnt"
 
 class GameScene : public cocos2d::Layer
 {
@@ -38,6 +39,7 @@ protected:
         kTagYellowLabel,
         kTagGreenLabel,
         kTagGrayLabel,
+        kTagScoreLabel,
         kTagBaseBlock = 10000,
     };
     
@@ -97,6 +99,8 @@ protected:
     void movingBlocksAnimation2(float delta);
     
     void showLabel();
+    
+    int m_score;
     
 public:
     virtual bool init();

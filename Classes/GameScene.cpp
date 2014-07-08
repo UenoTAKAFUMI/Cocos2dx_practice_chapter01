@@ -67,6 +67,7 @@ void GameScene::initForVariables() {
     
     // 変数初期化
     m_animating = false;
+    m_score = 0;
 }
 
 
@@ -91,6 +92,8 @@ void GameScene::onTouchEnded(Touch *pTouch, Event *pEvent){
         list<int> sameColorBlockTags = getSameColorBlockTags(tag, blockType);
         
         if (sameColorBlockTags.size() > 1) {
+            // 得点加算（消したコマ数 − 2）の2乗
+            m_score += pow(sameColorBlockTags.size() - 2, 2);
             // アニメーション開始（アニメーション中フラグを立てる）
             m_animating = true;
             
@@ -201,6 +204,18 @@ void GameScene::showLabel(){
             label->setString(countStr);
         }
         it++;
+    }
+    
+    // スコア表示
+    const char* scoreStr = ccsf("%d", m_score);
+    LabelBMFont* scoreLabel = (LabelBMFont*)m_background->getChildByTag(kTagScoreLabel);
+    if (!scoreLabel){
+        // スコア生成
+        scoreLabel = LabelBMFont::create(scoreStr, FONT_WHITE);
+        scoreLabel->setPosition(ccp(bgSize.width * 0.78, bgSize.height * 0.75));
+        m_background->addChild(scoreLabel, kZOrderLabel, kTagScoreLabel);
+    } else {
+        scoreLabel->setString(scoreStr);
     }
 }
 
