@@ -24,5 +24,6 @@ enum kBlock
     kBlockCount,
 };
 
+#define ccsf(...) String::createWithFormat(__VA_ARGS__)->getCString();
 
 #endif /* defined(__Nyangame__Config__) */
