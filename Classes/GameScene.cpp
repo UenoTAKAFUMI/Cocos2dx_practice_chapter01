@@ -44,6 +44,7 @@ bool GameScene::init() {
     
     showHighScoreLabel();
 
+    showResetButton();
     
     // 効果音の事前読み込み
     SimpleAudioEngine::sharedEngine()->preloadEffect(MP3_REMOVE_BLOCK);
@@ -583,5 +584,25 @@ void GameScene::saveHighScore(){
         showHighScoreLabel();
     }
 }
+
+// リセットボタンタップ時の処理
+void GameScene::menuResetCallback(cocos2d::Object *pSender){
+    GameScene* scene = GameScene::create();
+    Director::sharedDirector()->replaceScene((Scene*)scene);
+}
+
+void GameScene::showResetButton(){
+    Size bgSize = m_background->getContentSize();
+    
+    // リセットボタン作成
+    MenuItemImage* resetButton = MenuItemImage::create(PNG_RESET, PNG_RESET, this, menu_selector(GameScene::menuResetCallback));
+    resetButton->setPosition(ccp(bgSize.width * 0.78, bgSize.height * 0.1));
+    
+    // メニュー作成
+    Menu* menu = Menu::create(resetButton, NULL);
+    menu->setPosition(0,0);
+    m_background->addChild(menu);
+}
+
 
 
