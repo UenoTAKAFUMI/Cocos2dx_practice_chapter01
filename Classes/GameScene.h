@@ -20,6 +20,12 @@
 #define PNG_BACKGROUND "background.png"
 #define MP3_REMOVE_BLOCK "removeBlock.mp3"
 
+#define FONT_RED "redFont.fnt"
+#define FONT_BLUE "blueFont.fnt"
+#define FONT_YELLOW "yellowFont.fnt"
+#define FONT_GREEN "greenFont.fnt"
+#define FONT_GRAY "grayFont.fnt"
+
 class GameScene : public cocos2d::Layer
 {
 protected:
@@ -27,6 +33,11 @@ protected:
     enum kTag
     {
         kTagBackground = 1,
+        kTagRedLabel,
+        kTagBlueLabel,
+        kTagYellowLabel,
+        kTagGreenLabel,
+        kTagGrayLabel,
         kTagBaseBlock = 10000,
     };
     
@@ -34,6 +45,7 @@ protected:
     enum kZOrder
     {
         kZOrderBackground,
+        kZOrderLabel,
         kZOrderBlock,
     };
     
@@ -83,6 +95,8 @@ protected:
 
     // V3.1対応のためfloat型の仮引数を入れてみる
     void movingBlocksAnimation2(float delta);
+    
+    void showLabel();
     
 public:
     virtual bool init();

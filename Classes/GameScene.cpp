@@ -40,6 +40,8 @@ bool GameScene::init() {
     // コマ表示
     showBlock();
     
+    showLabel();
+    
     // 効果音の事前読み込み
     SimpleAudioEngine::sharedEngine()->preloadEffect(MP3_REMOVE_BLOCK);
     
@@ -153,6 +155,52 @@ void GameScene::showBlock() {
             pBlock->setPosition(getPosition(x, y));
             m_background->addChild(pBlock, kZOrderBlock, tag);
         }
+    }
+}
+
+// ラベル表示
+void GameScene::showLabel(){
+    Size bgSize = m_background->getContentSize();
+    
+    //残数表示
+    int tagsForLabel[] = {
+          kTagRedLabel
+        , kTagBlueLabel
+        , kTagYellowLabel
+        , kTagGreenLabel
+        , kTagGrayLabel
+    };
+    const char* fontNames[] = {
+          FONT_RED
+        , FONT_BLUE
+        , FONT_YELLOW
+        , FONT_GREEN
+        , FONT_GRAY
+    };
+    float heightRate[] = {
+          0.61
+        , 0.51
+        , 0.41
+        , 0.31
+        , 0.21
+    };
+    
+    // コマ種類のループ
+    vector<kBlock>::iterator it = blockTypes.begin();
+    while (it != blockTypes.end()) {
+        // コマ残数表示
+        int count = m_blockTags[*it].size();
+        const char* countStr = ccsf("%02d" , count);
+        LabelBMFont* label = (LabelBMFont*)m_background->getChildByTag(tagsForLabel[*it]);
+        if (!label){
+            // コマ残数生成
+            label = LabelBMFont::create(countStr, fontNames[*it]);
+            label->setPosition(ccp(bgSize.width * 0.78, bgSize.height * heightRate[*it]));
+            m_background->addChild(label, kZOrderLabel, tagsForLabel[*it]);
+        } else {
+            label->setString(countStr);
+        }
+        it++;
     }
 }
 
@@ -350,6 +398,10 @@ void GameScene::movingBlocksAnimation1(list<int> blocks){
 // コマの移動完了
 // V3.1対応のためfloat型の仮引数を入れてみる
 void GameScene::movedBlocks(float delta){
+    
+    // ラベル再表示（コマ数更新）
+    showLabel();
+    
     // アニメーション終了
     m_animating = false;
 }
