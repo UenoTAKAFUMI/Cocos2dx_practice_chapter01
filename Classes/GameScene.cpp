@@ -357,7 +357,7 @@ void GameScene::movedBlocks(float delta){
 // 新しい位置をセット
 void GameScene::setNewPosition2(int tag, GameScene::PositionIndex posIndex){
     BlockSprite* blockSprite = (BlockSprite*)m_background->getChildByTag(tag);
-    int nextPosX = blockSprite->getNextPosY();
+    int nextPosX = blockSprite->getNextPosX();
     if (nextPosX == -1) {
         nextPosX = posIndex.x;
     }
