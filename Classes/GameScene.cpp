@@ -344,11 +344,12 @@ void GameScene::movingBlocksAnimation1(list<int> blocks){
     moveBlock();
     
     // アニメーション終了時に次のアニメーション処理を開始する
-    scheduleOnce(schedule_selector(GameScene::movingBlocksAnimation2), MOVING_TIME)
+    scheduleOnce(schedule_selector(GameScene::movingBlocksAnimation2), MOVING_TIME);
 }
 
 // コマの移動完了
-void GameScene::movedBlocks(){
+// V3.1対応のためfloat型の仮引数を入れてみる
+void GameScene::movedBlocks(float delta){
     // アニメーション終了
     m_animating = false;
 }
@@ -430,7 +431,8 @@ void GameScene::searchNewPosition2(){
 }
 
 // コマのアニメーション
-void GameScene::movingBlocksAnimation2(){
+// V3.1対応のためfloat型の仮引数を入れてみる
+void GameScene::movingBlocksAnimation2(float delta){
     // コマの新しい位置をセットする
     searchNewPosition2();
     

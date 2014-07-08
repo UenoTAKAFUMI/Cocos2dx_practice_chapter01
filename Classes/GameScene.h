@@ -73,11 +73,16 @@ protected:
     void movingBlocksAnimation1(std::list<int> blocks);
     
     bool m_animating;
-    void movedBlocks();
+
+    // V3.1対応のためfloat型の仮引数を入れてみる
+    void movedBlocks(float delta);
+
     std::map<int, bool> getExistsBlockColumn();
     void searchNewPosition2();
     void setNewPosition2(int tag, PositionIndex posIndex);
-    void movingBlocksAnimation2();
+
+    // V3.1対応のためfloat型の仮引数を入れてみる
+    void movingBlocksAnimation2(float delta);
     
 public:
     virtual bool init();
